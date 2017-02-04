@@ -30,28 +30,29 @@ echo "answer-3: $answer_3"
 
 # Question 4: How many sequence records are in the SP1.fq file?
 sp1="$datasets/fastq/SP1.fq"
-answer_4=$(grep '^@' $sp1 \
+answer_4=$(grep '^@cluster' $sp1 \
     | wc -l)
 echo "answer-4: $answer_4"
 
 # Question 5: How many words are on lines containing the word bloody in hamlet.txt?
 hamlet="$datasets/misc/hamlet.txt"
-answer_5=$(grep -E 'bloody' $hamlet \
+answer_5=$(grep -i 'bloody' $hamlet \
     | wc -w)
 echo "answer-5: $answer_5"
 
 # Question 6: What is the length of the sequence in the first record of sample.fa?
 answer_6=$(sed -n '2p' $sequence \
+    | head -n1 \
+    | tr -d '\n' \
     | wc -c)
 echo "answer-6: $answer_6"
 
 # Question 7: What is the name of the longest gene in genes.hg19.bed.gz?
 hg19bed="$datasets/bed/genes.hg19.bed.gz"
 answer_7=$(gzcat $hg19bed \
+    | awk 'BEGIN {OFS="\t"} {print $0, $3-$2}' \
+    | sort -k7rn \
     | cut -f4 \
-    | awk 'BEGIN {OFS="\t"} {print length, $0}' \
-    | sort -k1rn \
-    | cut -f2 \
     | head -1)
 echo "answer-7: $answer_7"
 
