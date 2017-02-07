@@ -1,3 +1,0 @@
-script:
-    - cd .test
-    - bash .tests.sh
