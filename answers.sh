@@ -69,11 +69,7 @@ echo "answer-8: $answer_8"
 chr22peaks="$datasets/bed/peaks.chr22.bed.gz"
 answer_9=$(gzcat $chr22peaks \
     | awk 'BEGIN {OFS="\t"} {print $4, $3-$2}' \
-    | grep 'CTCF' \
-    | grep -v 'CTCFL' \
-    | cut -f2 \
-    | sort \
-    | uniq -c \
+    | grep -w 'CTCF' \
     | wc -l)
 echo "answer-9: $answer_9"
 
